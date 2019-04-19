@@ -2,6 +2,7 @@
 
 namespace Spec\PlanB\Utils\Builtin\Text;
 
+use PlanB\Utils\Builtin\Text\Encoding;
 use PlanB\Utils\Builtin\Text\Text;
 use PlanB\Utils\Builtin\Text\Stringify;
 use PhpSpec\ObjectBehavior;
@@ -52,7 +53,7 @@ class TextSpec extends ObjectBehavior
     public function it_is_initializable_with_a_specific_encoding()
     {
 
-        $this->beConstructedThrough('makeEncoded', [self::A_UTF_7_NAME, self::UTF_7]);
+        $this->beConstructedThrough('makeEncoded', [self::A_UTF_7_NAME, Encoding::UTF_7()]);
         $this->shouldHaveType(Text::class);
 
         $this->__toString()->shouldReturn(self::A_UTF_7_NAME);
@@ -60,17 +61,17 @@ class TextSpec extends ObjectBehavior
 
     public function it_can_change_the_encoding()
     {
-        $this->beConstructedThrough('makeEncoded', [self::A_UTF_7_NAME, self::UTF_7]);
+        $this->beConstructedThrough('makeEncoded', [self::A_UTF_7_NAME, Encoding::UTF_7()]);
 
-        $this->changeEncoding(self::UTF_8)
+        $this->changeEncoding(Encoding::UTF_8())
             ->__toString()->shouldReturn(self::A_NAME);
     }
 
     public function it_do_nothing_if_the_new_encoding_if_the_equal_to_current()
     {
-        $this->beConstructedThrough('makeEncoded', [self::A_UTF_7_NAME, self::UTF_7]);
+        $this->beConstructedThrough('makeEncoded', [self::A_UTF_7_NAME, Encoding::UTF_7()]);
 
-        $this->changeEncoding(self::UTF_7)
+        $this->changeEncoding(Encoding::UTF_7())
             ->__toString()->shouldReturn(self::A_UTF_7_NAME);
     }
 
@@ -86,8 +87,9 @@ class TextSpec extends ObjectBehavior
     {
 
         $text = sprintf(self::GREETING_FORMAT, self::A_UTF_7_NAME);
-        $this->beConstructedThrough('makeEncoded', [$text, self::UTF_7]);
+        $this->beConstructedThrough('makeEncoded', [$text, Encoding::UTF_7()]);
 
         $this->getLength()->shouldReturn(self::GREETING_LENGTH);
     }
+
 }
