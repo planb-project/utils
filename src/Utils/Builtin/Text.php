@@ -16,7 +16,7 @@ namespace PlanB\Utils\Builtin;
 /**
  * Wrapper para cadenas de texto
  */
-class Text
+class Text implements Stringify
 {
     /**
      * @var string
@@ -37,7 +37,7 @@ class Text
      * Crea una nueva instancia
      *
      * @param string $format
-     * @param mixed  ...$params
+     * @param mixed ...$params
      *
      * @return \PlanB\Utils\Builtin\Text
      */
@@ -50,7 +50,7 @@ class Text
 
 
     /**
-     * Devuelve la cadena de texto
+     * @inheritdoc
      *
      * @return string
      */

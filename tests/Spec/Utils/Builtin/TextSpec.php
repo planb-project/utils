@@ -3,6 +3,7 @@
 namespace Spec\PlanB\Utils\Builtin;
 
 use PlanB\Utils\Builtin\Text;
+use PlanB\Utils\Builtin\Stringify;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -17,6 +18,7 @@ class TextSpec extends ObjectBehavior
     public function it_is_initializable()
     {
         $this->shouldHaveType(Text::class);
+        $this->shouldImplement(Stringify::class);
     }
 
     public function it_is_initializable_from_a_simple_string()
