@@ -1,0 +1,26 @@
+formatter.name: pretty
+
+suites:
+    main:
+        spec_prefix: Spec
+        namespace: PlanB
+        psr4_prefix: PlanB
+        src_path: '%paths.config%/src'
+        spec_path: '%paths.config%/tests'
+
+
+extensions:
+    Memio\SpecGen\MemioSpecGenExtension: ~
+    Cjm\PhpSpec\Extension\TypeHintedMethodsExtension: ~
+    LeanPHP\PhpSpec\CodeCoverage\CodeCoverageExtension:
+        format:
+        - text
+        - html
+        - clover
+        output:
+            html: build/logs/coverage
+            clover: build/logs/coverage.xml
+        whitelist:
+        - src
+        blacklist:
+        - src/Resources

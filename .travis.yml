@@ -1,0 +1,23 @@
+language: php
+
+php:
+- 7.2.17
+
+sudo: false
+
+## Cache composer
+cache:
+    directories:
+    - $HOME/.composer/cache
+
+#services:
+#  - 'redis_server'
+
+
+before_script:
+- travis_retry composer self-update
+- travis_retry composer install --no-interaction --optimize-autoloader
+
+script:
+- bin/behat
+- bin/phpspec run spec

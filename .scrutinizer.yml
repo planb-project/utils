@@ -1,0 +1,29 @@
+checks:
+    php: true
+
+filter:
+    excluded_paths:
+    - "tests/"
+    - "vendor/"
+    - "var/"
+    - ".sami.php"
+    - "RoboFile.php"
+
+    dependency_paths:
+    - "vendor/"
+
+build:
+    nodes:
+        analysis:
+            environment:
+                php: "7.2"
+                postgresql: false
+                redis: false
+            tests:
+                override:
+                - php-scrutinizer-run
+                -
+                    command: bin/phpspec run
+                    coverage:
+                        file: build/logs/coverage.xml
+                        format: php-clover
