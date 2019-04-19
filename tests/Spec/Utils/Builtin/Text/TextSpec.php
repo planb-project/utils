@@ -10,10 +10,15 @@ use Prophecy\Argument;
 class TextSpec extends ObjectBehavior
 {
 
-    const A_NAME = 'pepe botika';
+    const A_NAME = 'josé botika';
+    const A_UTF_7_NAME = 'jos+AOk botika';
 
     const GREETING_FORMAT = 'hello, my name is %s';
-    const GREETING = 'hello, my name is pepe botika';
+    const GREETING = 'hello, my name is josé botika';
+
+    const UTF_7 = 'UTF-7';
+
+    const UTF_8 = 'UTF-8';
 
     public function let()
     {
@@ -40,6 +45,36 @@ class TextSpec extends ObjectBehavior
         $this->shouldHaveType(Text::class);
 
         $this->__toString()->shouldReturn(self::GREETING);
+    }
+
+    public function it_has_the_internal_encoding_by_default()
+    {
+        $this->getEncoding()->shouldReturn(mb_internal_encoding());
+    }
+
+    public function it_is_initializable_with_a_specific_encoding()
+    {
+
+        $this->beConstructedThrough('makeEncoded', [self::A_UTF_7_NAME, self::UTF_7]);
+        $this->shouldHaveType(Text::class);
+
+        $this->__toString()->shouldReturn(self::A_UTF_7_NAME);
+    }
+
+    public function it_can_change_the_encoding()
+    {
+        $this->beConstructedThrough('makeEncoded', [self::A_UTF_7_NAME, self::UTF_7]);
+
+        $this->changeEncoding(self::UTF_8)
+            ->__toString()->shouldReturn(self::A_NAME);
+    }
+
+    public function it_do_nothing_if_the_new_encoding_if_the_equal_to_current()
+    {
+        $this->beConstructedThrough('makeEncoded', [self::A_UTF_7_NAME, self::UTF_7]);
+
+        $this->changeEncoding(self::UTF_7)
+            ->__toString()->shouldReturn(self::A_UTF_7_NAME);
     }
 
 }

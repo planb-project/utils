@@ -22,15 +22,34 @@ class Text implements Stringify
      * @var string
      */
     private $text;
+    /**
+     * @var string
+     */
+    private $encoding;
 
     /**
      * Text constructor.
      *
      * @param string $text
+     * @param string|null $encoding
      */
-    private function __construct(string $text)
+    private function __construct(string $text, ?string $encoding = null)
     {
         $this->text = $text;
+        $this->encoding = $encoding ?? mb_internal_encoding();
+    }
+
+    /**
+     * Crea una instancia, con un encoding distinto al interno
+     *
+     * @param string $text
+     * @param string $encoding
+     *
+     * @return \PlanB\Utils\Builtin\Text\Text
+     */
+    public static function makeEncoded(string $text, string $encoding): Text
+    {
+        return new self($text, $encoding);
     }
 
     /**
@@ -45,7 +64,7 @@ class Text implements Stringify
     {
         $text = sprintf($format, ...$params);
 
-        return new Text($text);
+        return new self($text);
     }
 
 
@@ -57,5 +76,33 @@ class Text implements Stringify
     public function __toString(): string
     {
         return $this->text;
+    }
+
+    /**
+     * Devuelve el encoding
+     *
+     * @return string
+     */
+    public function getEncoding(): string
+    {
+        return $this->encoding;
+    }
+
+    /**
+     * Cambia el encoding del texto
+     *
+     * @param string $newEncoding : El nuevo encoding
+     *
+     * @return \PlanB\Utils\Builtin\Text\Text
+     */
+    public function changeEncoding(string $newEncoding): Text
+    {
+        if (0 === strcasecmp($newEncoding, $this->encoding)) {
+            return new self($this->text, $this->encoding);
+        }
+
+        $newText = mb_convert_encoding($this->text, $newEncoding, $this->encoding);
+
+        return new self($newText, $newEncoding);
     }
 }
