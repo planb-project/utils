@@ -105,4 +105,14 @@ class Text implements Stringify
 
         return new self($newText, $newEncoding);
     }
+
+    /**
+     * Devuelve la longitud del texto
+     *
+     * @return int
+     */
+    public function getLength(): int
+    {
+        return mb_strlen($this->text, $this->encoding);
+    }
 }

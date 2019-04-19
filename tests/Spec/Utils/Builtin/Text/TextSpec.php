@@ -17,13 +17,9 @@ class TextSpec extends ObjectBehavior
     const GREETING = 'hello, my name is josé botika';
 
     const UTF_7 = 'UTF-7';
-
     const UTF_8 = 'UTF-8';
 
-    public function let()
-    {
-        $this->beConstructedThrough('make', [self::GREETING_FORMAT, self::A_NAME]);
-    }
+    const GREETING_LENGTH = 29;
 
     public function it_is_initializable()
     {
@@ -49,6 +45,7 @@ class TextSpec extends ObjectBehavior
 
     public function it_has_the_internal_encoding_by_default()
     {
+        $this->beConstructedThrough('make', [self::GREETING_FORMAT, self::A_NAME]);
         $this->getEncoding()->shouldReturn(mb_internal_encoding());
     }
 
@@ -77,4 +74,20 @@ class TextSpec extends ObjectBehavior
             ->__toString()->shouldReturn(self::A_UTF_7_NAME);
     }
 
+
+    public function it_can_retrieve_the_length_of_a_text()
+    {
+        $this->beConstructedThrough('make', [self::GREETING_FORMAT, self::A_NAME]);
+
+        $this->getLength()->shouldReturn(self::GREETING_LENGTH);
+    }
+
+    public function it_can_retrieve_the_length_of_an_encoded_text()
+    {
+
+        $text = sprintf(self::GREETING_FORMAT, self::A_UTF_7_NAME);
+        $this->beConstructedThrough('makeEncoded', [$text, self::UTF_7]);
+
+        $this->getLength()->shouldReturn(self::GREETING_LENGTH);
+    }
 }
