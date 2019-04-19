@@ -11,12 +11,12 @@
 
 declare(strict_types=1);
 
-namespace PlanB\Utils\Builtin;
+namespace PlanB\Utils\Builtin\Text;
 
 /**
  * Define la interfaz Stringify
  *
- * Objetos que pueden ser convertidos a una cadena de texto
+ * Para identificar objetos que pueden ser convertidos a una cadena de texto
  */
 interface Stringify
 {

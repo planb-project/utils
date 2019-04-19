@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace PlanB\Utils\Builtin;
+namespace PlanB\Utils\Builtin\Text;
 
 /**
  * Wrapper para cadenas de texto
