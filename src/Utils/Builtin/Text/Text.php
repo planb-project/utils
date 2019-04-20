@@ -18,6 +18,10 @@ namespace PlanB\Utils\Builtin\Text;
  */
 class Text implements Stringify
 {
+
+    public const EMPTY = '';
+    public const SPACE = ' ';
+
     /**
      * @var string
      */
@@ -31,9 +35,9 @@ class Text implements Stringify
      * Text constructor.
      *
      * @param string $text
-     * @param \PlanB\Utils\Builtin\Text\Encoding|null $encoding
+     * @param \PlanB\Utils\Builtin\Text\Encoding|string|null $encoding
      */
-    private function __construct(string $text, ?Encoding $encoding = null)
+    private function __construct(string $text, $encoding = null)
     {
 
         $this->text = $text;
@@ -117,5 +121,25 @@ class Text implements Stringify
     public function getLength(): int
     {
         return mb_strlen($this->text, $this->encoding);
+    }
+
+    /**
+     * Indica si la cadena está vacia
+     *
+     * @return bool
+     */
+    public function isEmpty(): bool
+    {
+        return self::EMPTY === $this->text;
+    }
+
+    /**
+     * Indica si la cadena está vacia o compuesta sólo por espacios en blanco (saltos de linea, tabulaciones etc)
+     *
+     * @return bool
+     */
+    public function isBlank(): bool
+    {
+        return self::EMPTY === trim($this->text);
     }
 }

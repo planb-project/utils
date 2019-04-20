@@ -202,17 +202,19 @@ final class Encoding extends Enum implements Stringify
      * Devuelve el valor de un encoding
      * Si no se especifica ninguno, se devuelve el encoding internal
      *
-     * @param \PlanB\Utils\Builtin\Text\Encoding|null $encoding
+     * @param \PlanB\Utils\Builtin\Text\Encoding|string|null $encoding
      *
      * @return string
      */
-    public static function safeValue(?Encoding $encoding = null): string
+    public static function safeValue($encoding = null): string
     {
-        if ($encoding instanceof Encoding) {
-            return $encoding->getValue();
+        if (is_null($encoding)) {
+            return \mb_internal_encoding();
         }
 
-        return \mb_internal_encoding();
+        $encoding = Encoding::get($encoding);
+
+        return $encoding->getValue();
     }
 
     /**

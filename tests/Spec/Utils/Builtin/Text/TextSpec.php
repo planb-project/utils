@@ -16,11 +16,8 @@ class TextSpec extends ObjectBehavior
 
     const GREETING_FORMAT = 'hello, my name is %s';
     const GREETING = 'hello, my name is josé botika';
-
-    const UTF_7 = 'UTF-7';
-    const UTF_8 = 'UTF-8';
-
     const GREETING_LENGTH = 29;
+
 
     public function it_is_initializable()
     {
@@ -90,6 +87,41 @@ class TextSpec extends ObjectBehavior
         $this->beConstructedThrough('makeEncoded', [$text, Encoding::UTF_7()]);
 
         $this->getLength()->shouldReturn(self::GREETING_LENGTH);
+    }
+
+    public function it_identifies_an_empty_text()
+    {
+        $this->beConstructedThrough('make', [Text::EMPTY]);
+        $this->isEmpty()->shouldReturn(true);
+        $this->isBlank()->shouldReturn(true);
+    }
+
+    public function it_identifies_a_blank_text()
+    {
+        $this->beConstructedThrough('make', [Text::SPACE]);
+        $this->isEmpty()->shouldReturn(false);
+        $this->isBlank()->shouldReturn(true);
+    }
+
+    public function it_identifies_a_printable_text()
+    {
+        $this->beConstructedThrough('make', [self::GREETING]);
+        $this->isEmpty()->shouldReturn(false);
+        $this->isBlank()->shouldReturn(false);
+    }
+
+    public function it_identifies_a_tab_char()
+    {
+        $this->beConstructedThrough('make', ["\t"]);
+        $this->isEmpty()->shouldReturn(false);
+        $this->isBlank()->shouldReturn(true);
+    }
+
+    public function it_identifies_a_new_line_char()
+    {
+        $this->beConstructedThrough('make', ["\n"]);
+        $this->isEmpty()->shouldReturn(false);
+        $this->isBlank()->shouldReturn(true);
     }
 
 }
