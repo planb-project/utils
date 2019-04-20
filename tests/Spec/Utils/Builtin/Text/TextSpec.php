@@ -20,21 +20,27 @@ class TextSpec extends ObjectBehavior
 
 
     /**
-     * @param $text
+     * @param $format
+     * @param array $params
+     * @return TextSpec
      */
-    private function make($format, ...$params): void
+    private function make($format, ...$params): self
     {
 
         array_unshift($params, $format);
         $this->beConstructedThrough('make', $params);
+        return $this;
     }
 
     /**
      * @param $text
+     * @return TextSpec
      */
-    private function makeEncoded($text, $encoding): void
+    private function makeEncoded($text, $encoding): self
     {
         $this->beConstructedThrough('makeEncoded', [$text, $encoding]);
+
+        return $this;
     }
 
     public function it_is_initializable()
@@ -168,7 +174,47 @@ class TextSpec extends ObjectBehavior
 
         $this->trimRight()->__toString()->shouldReturn('     ホホRANDOM_TEXTホホ');
         $this->trimRight(' ホ')->__toString()->shouldReturn('     ホホRANDOM_TEXT');
+    }
 
+
+    public function it_can_extract_pieces_from_a_text_according_to_a_regex()
+    {
+        $this->make('hola|esto/es-una-frase con caracteres utf8 como este: ホ');
+
+        $this->match('/(\w+)/u')
+            ->shouldIterateLike([
+                Text::make('hola'),
+                Text::make('esto'),
+                Text::make('es'),
+                Text::make('una'),
+                Text::make('frase'),
+                Text::make('con'),
+                Text::make('caracteres'),
+                Text::make('utf8'),
+                Text::make('como'),
+                Text::make('este'),
+                Text::make('ホ'),
+            ]);
+    }
+
+    public function it_can_split_a_text_according_to_a_regex()
+    {
+        $this->make('hola|esto/es-una-frase con caracteres utf8 como este: ホ');
+
+        $this->split('/(\W+)/u')
+            ->shouldIterateLike([
+                Text::make('hola'),
+                Text::make('esto'),
+                Text::make('es'),
+                Text::make('una'),
+                Text::make('frase'),
+                Text::make('con'),
+                Text::make('caracteres'),
+                Text::make('utf8'),
+                Text::make('como'),
+                Text::make('este'),
+                Text::make('ホ'),
+            ]);
     }
 
 }

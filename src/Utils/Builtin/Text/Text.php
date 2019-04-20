@@ -188,4 +188,40 @@ class Text implements Stringify
 
         return new self($text, $this->encoding);
     }
+
+    /**
+     * Devuelve las coincidencias con base a una expresión regular
+     *
+     * @param string $pattern
+     *
+     * @see https://www.php.net/manual/es/function.preg-match-all.php
+     *
+     * @return \PlanB\Utils\Builtin\Text\TextList
+     */
+    public function match(string $pattern): TextList
+    {
+        $words = [];
+        preg_match_all($pattern, $this->text, $words);
+
+        return TextList::make(...$words[1]);
+    }
+
+    /**
+     * Devuelve un TextList con el resultado de dividir el texto con base a una expresión regular
+     *
+     * @param string $pattern
+     *
+     * @param int $limit
+     * @param int $flags
+     *
+     * @return \PlanB\Utils\Builtin\Text\TextList
+     *
+     * @see https://www.php.net/manual/es/function.preg-split.php
+     */
+    public function split(string $pattern, int $limit = -1, int $flags = 0): TextList
+    {
+        $words = preg_split($pattern, $this->text, $limit, $flags);
+
+        return TextList::make(...$words);
+    }
 }
