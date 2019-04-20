@@ -140,6 +140,52 @@ class Text implements Stringify
      */
     public function isBlank(): bool
     {
-        return self::EMPTY === trim($this->text);
+        return $this->trim()->isEmpty();
+    }
+
+    /**
+     * Elimina caracteres del principio y del final de un texto
+     *
+     * @param string $charList : Los caracteres que serán eliminados
+     *
+     * @return \PlanB\Utils\Builtin\Text\Text
+     */
+    public function trim(string $charList = " \t\n\r\0\x0B"): self
+    {
+
+        $text = trim($this->text, $charList);
+
+        return new self($text, $this->encoding);
+    }
+
+    /**
+     * Elimina caracteres del principio de un texto
+     *
+     * @param string $charList : Los caracteres que serán eliminados
+     *
+     * @return \PlanB\Utils\Builtin\Text\Text
+     */
+    public function trimLeft(string $charList = " \t\n\r\0\x0B"): self
+    {
+
+        $text = ltrim($this->text, $charList);
+
+        return new self($text, $this->encoding);
+    }
+
+
+    /**
+     * Elimina caracteres del final de un texto
+     *
+     * @param string $charList : Los caracteres que serán eliminados
+     *
+     * @return \PlanB\Utils\Builtin\Text\Text
+     */
+    public function trimRight(string $charList = " \t\n\r\0\x0B"): self
+    {
+
+        $text = rtrim($this->text, $charList);
+
+        return new self($text, $this->encoding);
     }
 }

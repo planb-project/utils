@@ -145,4 +145,30 @@ class TextSpec extends ObjectBehavior
     }
 
 
+    public function it_removes_characters_from_the_beginning_and_end_of_a_string()
+    {
+        $this->make('     ホホRANDOM_TEXTホホ     ');
+
+        $this->trim()->__toString()->shouldReturn('ホホRANDOM_TEXTホホ');
+        $this->trim(' ホ')->__toString()->shouldReturn('RANDOM_TEXT');
+
+    }
+
+    public function it_removes_characters_from_the_beginning_of_a_string()
+    {
+        $this->make('     ホホRANDOM_TEXTホホ     ');
+
+        $this->trimLeft()->__toString()->shouldReturn('ホホRANDOM_TEXTホホ     ');
+        $this->trimLeft(' ホ')->__toString()->shouldReturn('RANDOM_TEXTホホ     ');
+    }
+
+    public function it_removes_characters_from_the_end_of_a_string()
+    {
+        $this->make('     ホホRANDOM_TEXTホホ     ');
+
+        $this->trimRight()->__toString()->shouldReturn('     ホホRANDOM_TEXTホホ');
+        $this->trimRight(' ホ')->__toString()->shouldReturn('     ホホRANDOM_TEXT');
+
+    }
+
 }
