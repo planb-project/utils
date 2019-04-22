@@ -217,4 +217,46 @@ class TextSpec extends ObjectBehavior
             ]);
     }
 
+    public function it_can_converts_to_upper_case()
+    {
+        $this->make('hola ホ')
+            ->toUpperCase()
+            ->__toString()
+            ->shouldReturn('HOLA ホ');
+    }
+
+    public function it_can_converts_the_first_letter_to_upper_case()
+    {
+        $this->make('hola ホ')
+            ->toUpperCaseFirst()
+            ->__toString()
+            ->shouldReturn('Hola ホ');
+    }
+
+    public function it_can_converts_to_lower_case()
+    {
+        $this->make('HOLA ホ')
+            ->toLowerCase()
+            ->__toString()
+            ->shouldReturn('hola ホ');
+    }
+
+
+    public function it_can_converts_the_first_letter_to_lower_case()
+    {
+        $this->make('HOLA ホ')
+            ->toLowerCaseFirst()
+            ->__toString()
+            ->shouldReturn('hOLA ホ');
+    }
+
+
+    public function it_can_converts_to_title_case()
+    {
+        $this->make('HOLA MI NOMBRE ES PEPE')
+            ->toTitleCase()
+            ->__toString()
+            ->shouldReturn('Hola Mi Nombre Es Pepe');
+    }
+
 }

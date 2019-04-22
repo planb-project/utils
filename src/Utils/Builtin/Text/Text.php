@@ -224,4 +224,80 @@ class Text implements Stringify
 
         return TextList::make(...$words);
     }
+
+    /**
+     * Convierte el texto a mayusculas
+     *
+     * @see https://www.php.net/manual/es/function.mb-strtoupper.php
+     *
+     * @return \PlanB\Utils\Builtin\Text\Text
+     */
+    public function toUpperCase(): Text
+    {
+        $newText = mb_strtoupper($this->text, $this->encoding);
+
+        return Text::make($newText);
+    }
+
+
+    /**
+     * Convierte a mayusculas la letra inicial
+     *
+     * @see https://www.php.net/manual/es/function.ucfirst.php
+     *
+     * @return \PlanB\Utils\Builtin\Text\Text
+     */
+    public function toUpperCaseFirst(): Text
+    {
+        $first = mb_substr($this->text, 0, 1, $this->encoding);
+        $theRest = mb_substr($this->text, 1, null, $this->encoding);
+        $newText = mb_strtoupper($first, $this->encoding).$theRest;
+
+        return Text::make($newText);
+    }
+
+    /**
+     * Convierte el texto a minusculas
+     *
+     * @see https://www.php.net/manual/es/function.mb-strtolower.php
+     *
+     * @return \PlanB\Utils\Builtin\Text\Text
+     */
+    public function toLowerCase(): \PlanB\Utils\Builtin\Text\Text
+    {
+        $newText = mb_strtolower($this->text, $this->encoding);
+
+        return Text::make($newText);
+    }
+
+    /**
+     * Convierte a minusculas la letra inicial
+     *
+     * @see https://www.php.net/manual/es/function.lcfirst.php
+     *
+     * @return \PlanB\Utils\Builtin\Text\Text
+     */
+    public function toLowerCaseFirst(): \PlanB\Utils\Builtin\Text\Text
+    {
+        $first = mb_substr($this->text, 0, 1, $this->encoding);
+        $theRest = mb_substr($this->text, 1, null, $this->encoding);
+        $newText = mb_strtolower($first, $this->encoding).$theRest;
+
+        return Text::make($newText);
+    }
+
+    /**
+     * Convierte el texto a formato Title
+     * (cada palabra en minusculas, excepto la latra inicial que se convierte a mayusculas)
+     *
+     * @example texto de ejemplo => Texto De Ejemplo
+     *
+     * @return \PlanB\Utils\Builtin\Text|\PlanB\Utils\Builtin\Text\Text
+     */
+    public function toTitleCase()
+    {
+        $newText = mb_convert_case($this->text, MB_CASE_TITLE, $this->encoding);
+
+        return Text::make($newText);
+    }
 }
