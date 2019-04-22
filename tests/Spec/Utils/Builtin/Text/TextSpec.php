@@ -290,4 +290,20 @@ class TextSpec extends ObjectBehavior
             ->__toString()
             ->shouldReturn('hola = Mi = Nombre = Es = ホ');
     }
+
+    public function it_can_converts_to_snake_case()
+    {
+        $this->make('HOLA_MI-NOMBRE-ES-ホ')
+            ->toSnakeCase()
+            ->__toString()
+            ->shouldReturn('hola_mi_nombre_es_ホ');
+    }
+
+    public function it_can_converts_to_snake_case_with_a_delimiter()
+    {
+        $this->make('HOLA_MI-NOMBRE-ES-ホ')
+            ->toSnakeCase('-')
+            ->__toString()
+            ->shouldReturn('hola-mi-nombre-es-ホ');
+    }
 }

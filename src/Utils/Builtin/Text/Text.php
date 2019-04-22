@@ -228,7 +228,7 @@ class Text implements Stringify
 
     /**
      * Devuelve un TextList con las palabras del texto
-     * Es un alias de split con la expresión regular '/[\W_]/' como delimitador
+     * Es un alias de split con la expresión regular '/[\W_]+/u' como delimitador
      * (se trocea por cualquier caracter que no sea una letra o un número)
      *
      * @return \PlanB\Utils\Builtin\Text\TextList
@@ -323,10 +323,8 @@ class Text implements Stringify
      *
      * @return \PlanB\Utils\Builtin\Text\Text
      */
-    public function toPascalCase(?string $delimiter = null): Text
+    public function toPascalCase(?string $delimiter = Text::EMPTY): Text
     {
-        $delimiter = $delimiter ?? Text::EMPTY;
-
         return $this->getWords()
             ->map(static function (Text $text) {
                 return $text->toTitleCase();
@@ -343,15 +341,31 @@ class Text implements Stringify
      *
      * @return \PlanB\Utils\Builtin\Text\Text
      */
-    public function toCamelCase(?string $delimiter = null): Text
+    public function toCamelCase(?string $delimiter = Text::EMPTY): Text
     {
-        $delimiter = $delimiter ?? Text::EMPTY;
-
         return $this->getWords()
             ->map(static function (Text $text) {
                 return $text->toTitleCase();
             })
             ->join($delimiter)
             ->toLowerCaseFirst();
+    }
+
+    /**
+     * Convierte el texto a Snake Case
+     *
+     * Todas las palabras en minusculas, separadas por un guion bajo
+     *
+     * @param string|null $delimiter
+     *
+     * @return \PlanB\Utils\Builtin\Text\Text
+     */
+    public function toSnakeCase(?string $delimiter = '_'): Text
+    {
+        return $this->getWords()
+            ->map(static function (Text $text) {
+                return $text->toLowerCase();
+            })
+            ->join($delimiter);
     }
 }
