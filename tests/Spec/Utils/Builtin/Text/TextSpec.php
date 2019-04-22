@@ -306,4 +306,16 @@ class TextSpec extends ObjectBehavior
             ->__toString()
             ->shouldReturn('hola-mi-nombre-es-ホ');
     }
+
+
+    public function it_can_replace_a_substring()
+    {
+        $this->make('hola, mi nombre es ホ')
+            ->replace('/nombre/u', function (Text $match) {
+                return $match->toUpperCase();
+            })
+            ->__toString()
+            ->shouldReturn('hola, mi NOMBRE es ホ');;
+    }
+
 }

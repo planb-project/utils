@@ -368,4 +368,26 @@ class Text implements Stringify
             })
             ->join($delimiter);
     }
+
+    /**
+     * Realiza una búsqueda y sustitución de una expresión regular usando un callback
+     *
+     * @param string $pattern
+     * @param callable $callback
+     * @param int $limit
+     *
+     * @see https://www.php.net/manual/es/function.preg-replace-callback.php
+     *
+     * @return \PlanB\Utils\Builtin\Text|\PlanB\Utils\Builtin\Text\Text
+     */
+    public function replace(string $pattern, callable $callback, int $limit = -1)
+    {
+        $newText = preg_replace_callback($pattern, static function ($match) use ($callback) {
+            $params = TextList::make(...$match)->getIterator();
+
+            return call_user_func($callback, ...$params);
+        }, $this->text, $limit);
+
+        return self::make($newText, $this->encoding);
+    }
 }
