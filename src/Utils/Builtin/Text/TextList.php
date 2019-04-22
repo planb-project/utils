@@ -121,4 +121,18 @@ class TextList implements \IteratorAggregate, \Countable
 
         return self::make(...$words);
     }
+
+    /**
+     * Filtra los elementos de la colección
+     *
+     * @param callable $callback
+     *
+     * @return \PlanB\Utils\Builtin\Text\TextList
+     */
+    public function filter(callable $callback): TextList
+    {
+        $words = array_filter($this->words->getArrayCopy(), $callback);
+
+        return self::make(...$words);
+    }
 }

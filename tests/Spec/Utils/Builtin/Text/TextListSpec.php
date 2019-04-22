@@ -63,4 +63,15 @@ class TextListSpec extends ObjectBehavior
             ->shouldReturn('HOLA MI NOMBRE ES PEPE');
     }
 
+    public function it_can_filter_elements_according_to_a_callback()
+    {
+        $this->make('hola', 'mi', 'nombre', 'es', 'pepe');
+
+        $this->filter(function (Text $word) {
+            return $word->getLength() > 2;
+        })->join(Text::SPACE)
+            ->__toString()
+            ->shouldReturn('hola nombre pepe');
+    }
+
 }
