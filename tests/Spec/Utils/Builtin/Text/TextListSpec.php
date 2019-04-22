@@ -2,6 +2,7 @@
 
 namespace Spec\PlanB\Utils\Builtin\Text;
 
+use PlanB\Utils\Builtin\Text\Text;
 use PlanB\Utils\Builtin\Text\TextList;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -39,6 +40,16 @@ class TextListSpec extends ObjectBehavior
 
         $this->count()->shouldReturn(5);
         $this->isEmpty()->shouldReturn(false);
+    }
+
+
+    public function it_can_join_to_an_unique_text_object()
+    {
+        $this->make('hola', 'mi', 'nombre', 'es', 'pepe');
+
+        $this->join('-')
+            ->__toString()
+            ->shouldReturn('hola-mi-nombre-es-pepe');
     }
 
 }

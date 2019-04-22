@@ -11,8 +11,6 @@
 
 namespace PlanB\Utils\Builtin\Text;
 
-use Traversable;
-
 /**
  * Lista de objetos tipo Text
  */
@@ -55,9 +53,9 @@ class TextList implements \IteratorAggregate, \Countable
      *
      * @link http://php.net/manual/en/iteratoraggregate.getiterator.php
      *
-     * @return \Traversable An instance of an object implementing <b>Iterator</b> or <b>Traversable</b>
+     * @return \ArrayIterator
      */
-    public function getIterator(): Traversable
+    public function getIterator(): \ArrayIterator
     {
         return $this->words;
     }
@@ -80,5 +78,33 @@ class TextList implements \IteratorAggregate, \Countable
     public function isEmpty(): bool
     {
         return 0 === $this->count();
+    }
+
+    /**
+     * Devuelve un array con los valores como cadenas de texto
+     *
+     * @return string[]
+     */
+    private function getArrayCopy(): array
+    {
+        return array_map(static function (Text $text) {
+            return (string) $text;
+        }, $this->words->getArrayCopy());
+    }
+
+    /**
+     * Une los elementos en un único objeto Text
+     *
+     * @param string $delimiter
+     *
+     * @return \PlanB\Utils\Builtin\Text\Text
+     */
+    public function join(string $delimiter): Text
+    {
+        $words = $this->getArrayCopy();
+
+        $newText = implode($delimiter, $words);
+
+        return Text::make($newText);
     }
 }
