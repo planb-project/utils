@@ -52,4 +52,15 @@ class TextListSpec extends ObjectBehavior
             ->shouldReturn('hola-mi-nombre-es-pepe');
     }
 
+    public function it_retrieves_a_collection_copy_with_applied_changes()
+    {
+        $this->make('hola', 'mi', 'nombre', 'es', 'pepe');
+
+        $this->map(function (Text $word) {
+            return strtoupper((string)$word);
+        })->join(Text::SPACE)
+            ->__toString()
+            ->shouldReturn('HOLA MI NOMBRE ES PEPE');
+    }
+
 }

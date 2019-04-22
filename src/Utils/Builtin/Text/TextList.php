@@ -107,4 +107,18 @@ class TextList implements \IteratorAggregate, \Countable
 
         return Text::make($newText);
     }
+
+    /**
+     * Aplica un callback a todos los elementos de la colección
+     *
+     * @param callable $callback
+     *
+     * @return \PlanB\Utils\Builtin\Text\TextList
+     */
+    public function map(callable $callback): TextList
+    {
+        $words = array_map($callback, $this->words->getArrayCopy());
+
+        return self::make(...$words);
+    }
 }
