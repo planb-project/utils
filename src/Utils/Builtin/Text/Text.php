@@ -316,7 +316,8 @@ class Text implements Stringify
 
     /**
      * Convierte el texto a Pascal Case
-     * la letra inicial de cada palabra el mayusculas, y el resto en minusculas
+     *
+     * La letra inicial de cada palabra el mayusculas, y el resto en minusculas
      *
      * @param string|null $delimiter
      *
@@ -331,5 +332,26 @@ class Text implements Stringify
                 return $text->toTitleCase();
             })
             ->join($delimiter);
+    }
+
+    /**
+     * Convierte el texto a Camel Case
+     *
+     * Igual que pascal case, con la primera letra tambien en minuscula
+     *
+     * @param string|null $delimiter
+     *
+     * @return \PlanB\Utils\Builtin\Text\Text
+     */
+    public function toCamelCase(?string $delimiter = null): Text
+    {
+        $delimiter = $delimiter ?? Text::EMPTY;
+
+        return $this->getWords()
+            ->map(static function (Text $text) {
+                return $text->toTitleCase();
+            })
+            ->join($delimiter)
+            ->toLowerCaseFirst();
     }
 }

@@ -267,7 +267,7 @@ class TextSpec extends ObjectBehavior
             ->shouldReturn('HolaMiNombreEsホ');
     }
 
-    public function it_can_converts_to_pascal_with_a_delimiter()
+    public function it_can_converts_to_pascal_case_with_a_delimiter()
     {
         $this->make('HOLA____MI-NOMBRE-ES--ホ')
             ->toPascalCase(' = ')
@@ -275,4 +275,19 @@ class TextSpec extends ObjectBehavior
             ->shouldReturn('Hola = Mi = Nombre = Es = ホ');
     }
 
+    public function it_can_converts_to_camel_case()
+    {
+        $this->make('HOLA_MI-NOMBRE-ES-ホ')
+            ->toCamelCase()
+            ->__toString()
+            ->shouldReturn('holaMiNombreEsホ');
+    }
+
+    public function it_can_converts_to_camel_case_with_a_delimiter()
+    {
+        $this->make('HOLA____MI-NOMBRE-ES--ホ')
+            ->toCamelCase(' = ')
+            ->__toString()
+            ->shouldReturn('hola = Mi = Nombre = Es = ホ');
+    }
 }
