@@ -259,4 +259,20 @@ class TextSpec extends ObjectBehavior
             ->shouldReturn('Hola Mi Nombre Es Pepe');
     }
 
+    public function it_can_converts_to_pascal_case()
+    {
+        $this->make('HOLA_MI-NOMBRE-ES-ホ')
+            ->toPascalCase()
+            ->__toString()
+            ->shouldReturn('HolaMiNombreEsホ');
+    }
+
+    public function it_can_converts_to_pascal_with_a_delimiter()
+    {
+        $this->make('HOLA____MI-NOMBRE-ES--ホ')
+            ->toPascalCase(' = ')
+            ->__toString()
+            ->shouldReturn('Hola = Mi = Nombre = Es = ホ');
+    }
+
 }

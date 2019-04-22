@@ -214,15 +214,28 @@ class Text implements Stringify
      * @param int $limit
      * @param int $flags
      *
-     * @return \PlanB\Utils\Builtin\Text\TextList
-     *
      * @see https://www.php.net/manual/es/function.preg-split.php
+     *
+     * @return \PlanB\Utils\Builtin\Text\TextList
      */
     public function split(string $pattern, int $limit = -1, int $flags = 0): TextList
     {
         $words = preg_split($pattern, $this->text, $limit, $flags);
 
         return TextList::make(...$words);
+    }
+
+
+    /**
+     * Devuelve un TextList con las palabras del texto
+     * Es un alias de split con la expresión regular '/[\W_]/' como delimitador
+     * (se trocea por cualquier caracter que no sea una letra o un número)
+     *
+     * @return \PlanB\Utils\Builtin\Text\TextList
+     */
+    public function getWords(): TextList
+    {
+        return $this->split('/[\W_]+/u');
     }
 
     /**
@@ -288,7 +301,7 @@ class Text implements Stringify
 
     /**
      * Convierte el texto a formato Title
-     * (cada palabra en minusculas, excepto la latra inicial que se convierte a mayusculas)
+     * la letra inicial de cada palabra el mayusculas, y el resto en minusculas
      *
      * @example texto de ejemplo => Texto De Ejemplo
      *
@@ -299,5 +312,24 @@ class Text implements Stringify
         $newText = mb_convert_case($this->text, MB_CASE_TITLE, $this->encoding);
 
         return Text::make($newText);
+    }
+
+    /**
+     * Convierte el texto a Pascal Case
+     * la letra inicial de cada palabra el mayusculas, y el resto en minusculas
+     *
+     * @param string|null $delimiter
+     *
+     * @return \PlanB\Utils\Builtin\Text\Text
+     */
+    public function toPascalCase(?string $delimiter = null): Text
+    {
+        $delimiter = $delimiter ?? Text::EMPTY;
+
+        return $this->getWords()
+            ->map(static function (Text $text) {
+                return $text->toTitleCase();
+            })
+            ->join($delimiter);
     }
 }
